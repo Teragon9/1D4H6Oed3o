@@ -89,16 +89,6 @@ public class ExcelHelper {
     }
 
 
-    public static void main(String[] args) {
-        String a, b;
-        a = "Lun 7:00- 10:00";
-        System.out.println((a.substring(0, 3)));
-        StringTokenizer st = new StringTokenizer(a.substring(4), "- ");
-        b = st.nextToken();
-        System.out.println(b);
-        System.out.println(st.nextToken());
-    }
-
     public void createSheet(XSSFWorkbook workbook, XSSFSheet sheet, String nombreProf) {
 
         sheet.setColumnWidth(0, 3000);
