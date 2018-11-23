@@ -7,6 +7,8 @@ import org.apache.poi.xssf.usermodel.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
@@ -34,7 +36,10 @@ public class ExcelHelper {
 
         File currDir = new File(".");
         String path = currDir.getAbsolutePath();
-        String fileLocation = path.substring(0, path.length() - 1) + "temp.xlsx";
+        LocalDateTime dateTime = LocalDateTime.now();
+        String file = "horario_"+dateTime.getYear()+dateTime.getMonth()+dateTime.getDayOfMonth()+"_"+dateTime.getHour()+dateTime.getMinute()+dateTime.getSecond()+".xlsx";
+        String fileLocation = path.substring(0, path.length() - 1) + file;
+
 
         try {
             FileOutputStream outputStream = new FileOutputStream(fileLocation);

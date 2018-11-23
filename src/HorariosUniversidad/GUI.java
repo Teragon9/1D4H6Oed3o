@@ -1,98 +1,107 @@
 package HorariosUniversidad;
 
+import javafx.concurrent.Task;
 
-/**
- * @author Samuel Vinas
- */
-public class HorarioAG {
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
 
-    public static void main(String[] args) {
+public class GUI {
+    private JPanel panel1;
+    private JButton editarBaseDeDatosButton;
+    private JButton iniciarAlgoritmoButton;
+    private JTextField InPob;
+    private JTextField InMut;
+    private JTextField InCruce;
+    private JTextField InElit;
+    private JTextField InTam;
+    private JButton abrirCarpetaButton;
+    private JProgressBar progressBar1;
+    private JLabel LabelTiempo;
+    private JLabel LabelGeneraciones;
+    private JLabel LabelEmpalmes;
+    private double mutacion, cruce, fitness = 0;
+    private int pob, elitismo, tamano;
+    private long min, sec;
+    private Poblacion poblacion;
+    Thread algoritmo, progress;
+    Horario horario;
 
-        double time_inicio, time_final;
-        time_inicio = System.currentTimeMillis();
+    public GUI() {
+        iniciarAlgoritmoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                iniciarAlgoritmoButton.setEnabled(false);
 
+                pob = Integer.parseInt(InPob.getText());
+                elitismo = Integer.parseInt(InElit.getText());
+                tamano = Integer.parseInt(InTam.getText());
+                mutacion = Double.parseDouble(InMut.getText());
+                cruce = Double.parseDouble(InCruce.getText());
 
-        //boolean x = true;
-        //if (x) return;
-        Horario horario = creaHorario();
+                enableText(false);
+                horario = creaHorario();
 
-        // Ag ag = new Ag(500,0.001,1.0,5,15);
-        //Ag ag = new Ag(400,0.001,1.0,4,12);
-        // Ag ag = new Ag(300,0.001,1,3,9);
-        //Ag ag = new Ag(200,0.001,1.0,2,6);
-        //Ag ag = new Ag(100,0.001,1.0,1,3);
+                progressBar1.setIndeterminate(true);
+                progressBar1.setStringPainted(false);
 
-        //Ag ag = new Ag(400,0.001,0.2,4,12);
-        //Ag ag = new Ag(400,0.001,0.2,5,15);
-        //Ag ag = new Ag(500,0.001,0.3,5,15);
-        //Ag ag = new Ag(500,0.001,0.4,5,15);
-        //Ag ag = new Ag(500,0.001,0.5,5,15);
-        //  Ag ag = new Ag(500,0.001,0.6,5,15);
-        // Ag ag = new Ag(500,0.001,0.7,5,15);
-        //Ag ag = new Ag(500,0.001,0.8,5,15);
-        //  Ag ag = new Ag(500,0.001,0.9,5,15);
-        //Ag ag = new Ag(500,0.009,1.0,5,15);
+                Task a = new Task() {
+                    @Override
+                    protected Object call() throws Exception {
+                        return null;
+                    }
 
+                    @Override
+                    public void run() {
+                        super.run();
+                        operaciones(horario);
+                        super.done();
+                    }
+                };
+                Thread thread = new Thread(a);
+                thread.setDaemon(true);
+                thread.start();
 
-        //Ag ag = new Ag(400,0.001,0.2,4,12);
-        //Ag ag = new Ag(400,0.001,0.3,4,12);
-        //Ag ag = new Ag(400,0.001,0.4,4,12);
-        //Ag ag = new Ag(400,0.001,0.5,4,12);
-        //Ag ag = new Ag(400,0.001,0.6,4,12);
-        //Ag ag = new Ag(400,0.001,0.7,4,12);
-        //Ag ag = new Ag(400,0.001,0.8,4,12);
-        //Ag ag = new Ag(400,0.001,0.9,4,12);
-        //Ag ag = new Ag(400,0.001,1.0,4,12);
+            }
+        });
+        abrirCarpetaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                File currDir = new File(".");
+                String path = currDir.getAbsolutePath();
+                path = path.substring(0, path.length() - 1) + "horario.xlsx";
+                try {
+                    Runtime.getRuntime().exec("explorer.exe /select," + path);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+    }
 
-        //Ag ag = new Ag(300,0.001,0.1,3,9);
-        //Ag ag = new Ag(300,0.001,0.2,3,9);
-        //Ag ag = new Ag(300,0.001,0.3,3,9);
-        //Ag ag = new Ag(300,0.001,0.4,3,9);
-        //Ag ag = new Ag(300,0.001,0.5,3,9);
-        //Ag ag = new Ag(300,0.001,0.6,3,9);
-        // Ag ag = new Ag(300,0.001,0.7,3,9);
-        //Ag ag = new Ag(300,0.001,0.8,3,9);
-        //Ag ag = new Ag(300,0.001,0.9,3,9);
-        //Ag ag = new Ag(300,0.001,1.0,3,9);
+    private void operaciones(Horario horario) {
+        long tInicio, tActual;
+        tInicio = System.currentTimeMillis();
+        LabelEmpalmes.setText("");
+        Ag ag = new Ag(pob, mutacion, cruce, elitismo, tamano);
 
-        //Ag ag = new Ag(200,0.001,0.1,2,6);
-        //Ag ag = new Ag(200,0.001,0.2,2,6);
-        //Ag ag = new Ag(200,0.001,0.3,2,6);
-        //Ag ag = new Ag(200,0.001,0.4,2,6);
-        //Ag ag = new Ag(200,0.001,0.5,2,6);
-        //Ag ag = new Ag(200,0.001,0.6,2,6);
-        //Ag ag = new Ag(200,0.001,0.7,2,6);
-        //Ag ag = new Ag(200,0.001,0.8,2,6);
-        //Ag ag = new Ag(200,0.001,0.9,2,6);
-        //Ag ag = new Ag(200,0.001,1.0,2,6);
-
-
-        //Ag ag = new Ag(100,0.001,0.1,1,3);
-        //Ag ag = new Ag(100,0.001,0.2,1,3);
-        //Ag ag = new Ag(100,0.001,0.3,1,3);
-        //Ag ag = new Ag(100,0.001,0.4,1,3);
-        //Ag ag = new Ag(100,0.001,0.5,1,3);
-        // Ag ag = new Ag(100,0.001,0.6,1,3);
-        // Ag ag = new Ag(100,0.001,0.7,1,3);
-        //Ag ag = new Ag(100,0.001,0.8,1,3);
-        // Ag ag = new Ag(100,0.001,0.9,1,3);
-        // Ag ag = new Ag(100,0.0001,1.0,1,3);
-
-
-        //Ag ag = new Ag(100,0.001,0.9,4,10);
-        //Ag ag = new Ag(100,0.001,0.9,4,10);
-        //Ag ag = new Ag(100,0.001,0.9,4,10);
-
-        Ag ag = new Ag(100, 0.001, 0.8, 1, 3);
-
-        Poblacion poblacion = ag.iniciaPoblacion(horario);
+        poblacion = ag.iniciaPoblacion(horario);
         ag.evalPoblacion(poblacion, horario);
 
         int generacion = 1;
 
-        while (!ag.isTerminationConditionMet(generacion, 150000) && !ag.isTerminationConditionMet(poblacion)) {
-            System.out.println("G " + generacion + " Mas adeacuado " + poblacion.getFittest(0).getFitness());
-
+        while (!ag.isTerminationConditionMet(generacion, 10000) && !ag.isTerminationConditionMet(poblacion)) {
+            tActual = System.currentTimeMillis();
+            min = ((tActual - tInicio) / 1000) / 60;
+            sec = ((tActual - tInicio) / 1000) % 60;
+            LabelTiempo.setText(String.format("Tiempo Transcurrido %02d:%02d", min, sec));
+            LabelGeneraciones.setText(generacion+" Generaciones");
+            fitness = poblacion.getFittest(0).getFitness();
             poblacion = ag.crucePoblacion(poblacion);
             poblacion = ag.mutaPoblacion(poblacion, horario);
             ag.evalPoblacion(poblacion, horario);
@@ -100,28 +109,44 @@ public class HorarioAG {
 
         }
 
-
-        horario.creaClases(poblacion.getFittest(0));
-        System.out.println();
-
-        System.out.println();
-        Clase[] classes = horario.getClases();
-        /*int indClases = 1;
-        for (Clase mejorClase : classes) {
-            System.out.printf("%-10s%-35s%-20s%-20s%-20s\n", indClases, horario.getAsignatura(mejorClase.getIdAsignatura()).getAsignatura(), horario.getAula(mejorClase.getIdAula()).getNombreAula()
-                    , horario.getProfesor(mejorClase.getIdProfesor()).getNomPorfesor(), horario.getTiempos(mejorClase.getIdTiempo()).getEspacioTiempo());
-            indClases++;
+        if (generacion<10000){
+            horario.creaClases(poblacion.getFittest(0));
+            Clase[] clases = horario.getClases();
+            ExcelHelper excelHelper = new ExcelHelper();
+            excelHelper.generarHorariosProfesores(clases, horario);
+            progressBar1.setIndeterminate(false);
+            progressBar1.setValue(100);
+            progressBar1.setString("COMPLETADO");
+            progressBar1.setStringPainted(true);
+            iniciarAlgoritmoButton.setEnabled(true);
+            LabelEmpalmes.setText("Empalmes: "+horario.calcClases());
         }
-*/
-        time_final = System.currentTimeMillis();
-        System.out.println();
-        System.out.println("Solucion encontrada en Generaciones - Seg " + generacion + " -> " + (time_final - time_inicio) * 0.001);
-        System.out.println("Solucion Final mas adeacuada " + poblacion.getFittest(0).getFitness());
-        System.out.println("Empalmes " + horario.calcClases());
 
-        ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.generarHorariosProfesores(classes, horario);
 
+        progressBar1.setIndeterminate(false);
+        progressBar1.setValue(0);
+        progressBar1.setString("NO SE ENCONTRÓ SOLUCIÓN");
+        progressBar1.setStringPainted(true);
+        iniciarAlgoritmoButton.setEnabled(true);
+        LabelEmpalmes.setText("");
+        enableText(true);
+
+    }
+
+    private void enableText(boolean b) {
+        InCruce.setEnabled(b);
+        InElit.setEnabled(b);
+        InMut.setEnabled(b);
+        InPob.setEnabled(b);
+        InTam.setEnabled(b);
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("GUI");
+        frame.setContentPane(new GUI().panel1);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
 
     }
 
@@ -498,5 +523,4 @@ public class HorarioAG {
 
         return horario;
     }
-
 }
