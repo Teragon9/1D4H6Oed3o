@@ -120,15 +120,17 @@ public class GUI {
             progressBar1.setStringPainted(true);
             iniciarAlgoritmoButton.setEnabled(true);
             LabelEmpalmes.setText("Empalmes: "+horario.calcClases());
+        }else{
+            progressBar1.setIndeterminate(false);
+            progressBar1.setValue(0);
+            progressBar1.setString("NO SE ENCONTRÓ SOLUCIÓN");
+            progressBar1.setStringPainted(true);
+            iniciarAlgoritmoButton.setEnabled(true);
+            LabelEmpalmes.setText("");
         }
 
 
-        progressBar1.setIndeterminate(false);
-        progressBar1.setValue(0);
-        progressBar1.setString("NO SE ENCONTRÓ SOLUCIÓN");
-        progressBar1.setStringPainted(true);
-        iniciarAlgoritmoButton.setEnabled(true);
-        LabelEmpalmes.setText("");
+
         enableText(true);
 
     }
