@@ -37,9 +37,19 @@ public class ExcelHelper {
         File currDir = new File(".");
         String path = currDir.getAbsolutePath();
         LocalDateTime dateTime = LocalDateTime.now();
-        String file = "horario_"+dateTime.getYear()+dateTime.getMonth()+dateTime.getDayOfMonth()+"_"+dateTime.getHour()+dateTime.getMinute()+dateTime.getSecond()+".xlsx";
-        String fileLocation = path.substring(0, path.length() - 1) + file;
+        String file = "horario_" + dateTime.getYear() + dateTime.getMonth() + dateTime.getDayOfMonth() + "_" + dateTime.getHour() + dateTime.getMinute() + dateTime.getSecond() + ".xlsx";
+        String fileLocation = path.substring(0, path.length() - 1) + "horarios\\";
+        try {
+            File dir = new File(fileLocation);
+            if (!dir.exists()) {
+                boolean res = dir.mkdir();
+                if (res) System.out.println("DIRECTORIO CREADO");
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
 
+        fileLocation = fileLocation + file;
 
         try {
             FileOutputStream outputStream = new FileOutputStream(fileLocation);

@@ -69,14 +69,22 @@ public class GUI {
 
             }
         });
+
         abrirCarpetaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 File currDir = new File(".");
                 String path = currDir.getAbsolutePath();
-                path = path.substring(0, path.length() - 1) + "horario.xlsx";
+                path = path.substring(0, path.length() - 1);
+                path = path + "horarios\\";
+
                 try {
-                    Runtime.getRuntime().exec("explorer.exe /select," + path);
+                    File f = new File(path);
+                    if (!f.exists()) {
+                        boolean res = f.mkdir();
+                        if (res) System.out.println("DIRECTORIO CREADO");
+                    }
+                    Runtime.getRuntime().exec("explorer.exe " + path);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -100,7 +108,7 @@ public class GUI {
             min = ((tActual - tInicio) / 1000) / 60;
             sec = ((tActual - tInicio) / 1000) % 60;
             LabelTiempo.setText(String.format("Tiempo Transcurrido %02d:%02d", min, sec));
-            LabelGeneraciones.setText(generacion+" Generaciones");
+            LabelGeneraciones.setText(generacion + " Generaciones");
             fitness = poblacion.getFittest(0).getFitness();
             poblacion = ag.crucePoblacion(poblacion);
             poblacion = ag.mutaPoblacion(poblacion, horario);
@@ -109,7 +117,7 @@ public class GUI {
 
         }
 
-        if (generacion<10000){
+        if (generacion < 10000) {
             horario.creaClases(poblacion.getFittest(0));
             Clase[] clases = horario.getClases();
             ExcelHelper excelHelper = new ExcelHelper();
@@ -119,8 +127,8 @@ public class GUI {
             progressBar1.setString("COMPLETADO");
             progressBar1.setStringPainted(true);
             iniciarAlgoritmoButton.setEnabled(true);
-            LabelEmpalmes.setText("Empalmes: "+horario.calcClases());
-        }else{
+            LabelEmpalmes.setText("Empalmes: " + horario.calcClases());
+        } else {
             progressBar1.setIndeterminate(false);
             progressBar1.setValue(0);
             progressBar1.setString("NO SE ENCONTRÓ SOLUCIÓN");
@@ -128,7 +136,6 @@ public class GUI {
             iniciarAlgoritmoButton.setEnabled(true);
             LabelEmpalmes.setText("");
         }
-
 
 
         enableText(true);
