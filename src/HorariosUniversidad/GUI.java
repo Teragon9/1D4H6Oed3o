@@ -77,7 +77,6 @@ public class GUI {
                 String path = currDir.getAbsolutePath();
                 path = path.substring(0, path.length() - 1);
                 path = path + "horarios\\";
-
                 try {
                     File f = new File(path);
                     if (!f.exists()) {
@@ -122,6 +121,7 @@ public class GUI {
             Clase[] clases = horario.getClases();
             ExcelHelper excelHelper = new ExcelHelper();
             excelHelper.generarHorariosProfesores(clases, horario);
+            excelHelper.generarHorariosGrupos(clases,horario);
             progressBar1.setIndeterminate(false);
             progressBar1.setValue(100);
             progressBar1.setString("COMPLETADO");
@@ -151,7 +151,7 @@ public class GUI {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("GUI");
+        JFrame frame = new JFrame("Generacion de Horarios");
         frame.setContentPane(new GUI().panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -324,38 +324,38 @@ public class GUI {
         horario.addAsignatura(2, "IFM2", "Contabilidad", new int[]{7});
         horario.addAsignatura(3, "IFM3", "Fundamentos de Inv", new int[]{9});
         horario.addAsignatura(4, "IFM4", "Matematicas II", new int[]{6});
-        horario.addAsignatura(5, "IFM5", "Organizacion de computadoras", new int[]{3});
+        horario.addAsignatura(5, "IFM5", "Org. de computadoras", new int[]{3});
         horario.addAsignatura(6, "IFM6", "Probabilidad", new int[]{8});
         horario.addAsignatura(7, "IFM7", "Ingles II", new int[]{10});
 
         horario.addAsignatura(8, "IFM8", "Organizacion de Datos", new int[]{1});
         horario.addAsignatura(9, "IFM9", "Programacion II", new int[]{2});
         horario.addAsignatura(10, "IFM10", "Software de Sistemas", new int[]{3});
-        horario.addAsignatura(11, "IFM11", "Investigacion de Operaciones II", new int[]{8});
+        horario.addAsignatura(11, "IFM11", "Inv. de Oper. II", new int[]{8});
         horario.addAsignatura(12, "IFM12", "Fundamentos de Redes", new int[]{4});
-        horario.addAsignatura(13, "IFM13", "Taller de investigacion I", new int[]{9});
+        horario.addAsignatura(13, "IFM13", "Taller de inv. I", new int[]{9});
         horario.addAsignatura(14, "IFM14", "Ingles IV", new int[]{11});
 
         horario.addAsignatura(15, "IFM1", "Taller de BD", new int[]{3});
         horario.addAsignatura(16, "IFM2", "Calidad del SW", new int[]{5});
         horario.addAsignatura(17, "IFM3", "Sist. Op. II", new int[]{4});
         horario.addAsignatura(18, "IFM4", "Sistemas de Inf II", new int[]{1});
-        horario.addAsignatura(19, "IFM5", "Iterconectividad de redes", new int[]{2});
+        horario.addAsignatura(19, "IFM5", "Intercon. de redes", new int[]{2});
         horario.addAsignatura(20, "IFM6", "Taller de Inv. II", new int[]{9});
         horario.addAsignatura(21, "IFM7", "Sistemas Abiertos", new int[]{2});
         horario.addAsignatura(22, "IFM7", "Ingles VI", new int[]{11});
 
         horario.addAsignatura(23, "IFM1", "Desarrollo de App", new int[]{2});
         horario.addAsignatura(24, "IFM2", "Auditoria Inf.", new int[]{5});
-        horario.addAsignatura(25, "IFM3", "Topicos Avanzados de BD", new int[]{4});
+        horario.addAsignatura(25, "IFM3", "Topicos Av. de BD", new int[]{4});
         horario.addAsignatura(26, "IFM5", "Evaluacion de proy", new int[]{13});
         horario.addAsignatura(27, "IFM6", "Optativa III", new int[]{3});
         horario.addAsignatura(28, "IFM7", "Optativa IV", new int[]{4});
         horario.addAsignatura(29, "IFM7", "Ingles tecnico I", new int[]{12});
 
         //contaduria
-        horario.addAsignatura(30, "cont2", "Contabilidad Intermedia I", new int[]{19});
-        horario.addAsignatura(31, "cont2", "Derecho Constitucional...", new int[]{15});
+        horario.addAsignatura(30, "cont2", "Cont. Intermedia I", new int[]{19});
+        horario.addAsignatura(31, "cont2", "Derecho Constitucional", new int[]{15});
         horario.addAsignatura(32, "cont2", "Ingles III", new int[]{16});
         horario.addAsignatura(33, "cont2", "Taller de Informatica", new int[]{5});
         horario.addAsignatura(34, "cont2", "Admon de R.H.", new int[]{17});
@@ -370,22 +370,22 @@ public class GUI {
         horario.addAsignatura(42, "cont4", "Derecho Fiscal", new int[]{15});
         horario.addAsignatura(43, "cont4", "Costos Historicos", new int[]{18});
         horario.addAsignatura(44, "cont4", "Entorno Macro Economico", new int[]{13});
-        horario.addAsignatura(45, "cont4", "Taller de investigacion I", new int[]{9});
+        horario.addAsignatura(45, "cont4", "Taller de inv. I", new int[]{9});
 
-        horario.addAsignatura(46, "cont6", "Contabilidad para Soc", new int[]{7});
+        horario.addAsignatura(46, "cont6", "Cont. para Soc.", new int[]{7});
         horario.addAsignatura(47, "cont6", "Finanzas III", new int[]{22});
         horario.addAsignatura(48, "cont6", "Auditoria Financ. II", new int[]{23});
         horario.addAsignatura(49, "cont6", "Presupuestos", new int[]{23});
         horario.addAsignatura(50, "cont6", "Talle de Inf III", new int[]{19});
         horario.addAsignatura(51, "cont6", "Impuestos II", new int[]{18});
-        horario.addAsignatura(52, "cont6", "ingles 6", new int[]{11});
+        horario.addAsignatura(52, "cont6", "Ingles 6", new int[]{11});
         horario.addAsignatura(53, "cont6", "Taller de inv II", new int[]{9});
 
-        horario.addAsignatura(54, "cont8", "Contabilidad Bancaria", new int[]{7});
+        horario.addAsignatura(54, "cont8", "Cont. Bancaria", new int[]{7});
         horario.addAsignatura(55, "cont8", "Seminario de Titulacion", new int[]{22});
-        horario.addAsignatura(56, "cont8", "Contabililidad Hotelera", new int[]{23});
-        horario.addAsignatura(57, "cont8", "Contabilidad Gubernamental", new int[]{23});
-        horario.addAsignatura(58, "cont8", "Talleres de practicas fiscales", new int[]{19});
+        horario.addAsignatura(56, "cont8", "Cont. Hotelera", new int[]{23});
+        horario.addAsignatura(57, "cont8", "Cont. Gubernamental", new int[]{23});
+        horario.addAsignatura(58, "cont8", "Talleres de pact. fiscales", new int[]{19});
         horario.addAsignatura(59, "cont8", "ingles tecnico i", new int[]{12});
         horario.addAsignatura(60, "cont8", "Seminario de contaduria", new int[]{18});
         horario.addAsignatura(61, "cont8", "Habilidades directivas", new int[]{13});
@@ -400,19 +400,19 @@ public class GUI {
         horario.addAsignatura(68, "psico2", "Ingles II", new int[]{10});//brian
         horario.addAsignatura(69, "psico2", "Planeacioin Est", new int[]{17});//rosa maria
 
-        horario.addAsignatura(70, "psico4", "Admon de Sueldos u Salarios", new int[]{22});//faviola
+        horario.addAsignatura(70, "psico4", "Admon de Salarios", new int[]{22});//faviola
         horario.addAsignatura(71, "psico4", "Ingles IV", new int[]{21});
         horario.addAsignatura(72, "psico4", "Estadistica II", new int[]{28});//yuli
         horario.addAsignatura(73, "psico4", "Desarrollo Sustentable", new int[]{28});
-        horario.addAsignatura(74, "psico4", "Introduccion al Estudio del Der.", new int[]{30});//analilia
+        horario.addAsignatura(74, "psico4", "Intro. al Estudio del Der.", new int[]{30});//analilia
         horario.addAsignatura(75, "psico4", "Investigacion Cualitativa", new int[]{26});
         horario.addAsignatura(76, "psico4", "Evaluacion Psicometrica", new int[]{29});//maribel
-        horario.addAsignatura(77, "psico4", "Administracion Estrategica", new int[]{17});//rosa m
+        horario.addAsignatura(77, "psico4", "Admin. Estrategica", new int[]{17});//rosa m
 
         horario.addAsignatura(78, "psico6", "Control de Calidad", new int[]{28});//yuli
         horario.addAsignatura(79, "psico6", "Derecho a la Seg. Social", new int[]{30});
         horario.addAsignatura(80, "psico6", "Capac. a traves de Couch", new int[]{26});
-        horario.addAsignatura(81, "psico6", "Problemas Psicosociales en la Ind.", new int[]{29});
+        horario.addAsignatura(81, "psico6", "Prob. Psicosociales en la Ind.", new int[]{29});
         horario.addAsignatura(82, "psico6", "Entrevistas por Comp.", new int[]{29});
         horario.addAsignatura(83, "psico6", "Formacion y Desarrollo de Dir.", new int[]{13}); //jenifer
         horario.addAsignatura(84, "psico6", "Ingles VI", new int[]{11});
